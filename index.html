@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>カメラと位置情報</title>
+</head>
+<body>
+<script>
+function detectObject() {
+  // カメラの許可を得る
+  navigator.permissions.query({
+    name: "camera",
+  }).then((result) => {
+    if (result.status === "granted") {
+      // カメラを起動する
+      navigator.mediaDevices.getUserMedia({
+        video: true,
+      }).then((stream) => {
+        // 位置情報を取得する
+        navigator.geolocation.getCurrentPosition().then((position) => {
+          // 位置情報を文字列に変換する
+          const positionString = `${position.latitude}, ${position.longitude}`;
+          // 文字列を表示する
+          document.querySelector(".position").textContent = positionString;
+        });
+      });
+    }
+  });
+}
+</script>
+<button onclick="detectObject()">物体検出</button>
+<div class="position"></div>
+</body>
+</html>
